@@ -1,5 +1,8 @@
 // ! ! !
 // Three Bugs
+//var array is a global variable that is an array of arrays, so you have to use [i][] each time you call array to reference the actualy indice within the array.
+//In the switch function there is no reason to subtract 1.
+//newArray[2] should be rounded, so you have to use Math.round()
 
 var arrayAtticus = ["Atticus", "2405", "47000", 3];
 var arrayJem = ["Jem", "62347", "63500", 4];
@@ -21,27 +24,28 @@ for(var i = 0; i < array.length; i++){
 	newText = document.createTextNode(array[i]);
 	newEl.appendChild(newText);
 	position.appendChild(newEl);
+
 }
 
 function calculateSTI(array){
   var newArray = [];
 
-  newArray[0] = array[0];
+  newArray[0] = array[i][0];//add another [i] 
 
-  var employeeNumber = array[1];
-  var baseSalary = array[2];
-  var reviewScore = array[3];
-
+  var employeeNumber = array[i][1];
+  var baseSalary = array[i][2];
+  var reviewScore = array[i][3];// var array is an array of arrays. Only referencing one indice will reference an entire array. have to add [i]
   var bonus = getBaseSTI(reviewScore) + getYearAdjustment(employeeNumber) - getIncomeAdjustment(baseSalary);
   if(bonus > 0.13){
     bonus = 0.13;
   }
 
-  newArray[1] = bonus;
-  newArray[2] = baseSalary * (1.0 + bonus);
-  newArray[3] = baseSalary * bonus;
+  newArray[1] = " " + bonus;
+  newArray[2] = " " + Math.round(baseSalary * (1.0 + bonus));//added Math.round
+  newArray[3] = " " + (baseSalary * bonus);
   console.log(newArray[0] + " " + newArray[1] + " " + newArray[2] + " " + newArray[3]);
   return newArray;
+  console.log(newArray);
 }
 
 function getBaseSTI(reviewScore){
@@ -63,7 +67,7 @@ function getBaseSTI(reviewScore){
       basePercent = 0.10;
       break;
   }
-  return basePercent - 1;
+  return basePercent; //- 1;//Why is 1 being subtracted????
 }
 
 function getYearAdjustment(employeeNumber){
